@@ -8,6 +8,11 @@ services:
       - .:/app
     depends_on:
       - db
+    healthcheck:
+      test: curl --fail -s http://localhost:5000/ || exit 1
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
 
   db:
     container_name: crow_database
@@ -20,3 +25,7 @@ services:
       - "3306:3306"
     volumes:
       - .:/db
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10

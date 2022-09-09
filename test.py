@@ -1,4 +1,5 @@
 from mysql import connector
+import requests
 
 def test_db():
 	conn = connector.connect(
@@ -13,3 +14,7 @@ def test_db():
 	cur.execute("SELECT * FROM crow")
 
 	assert len(cur.fetchall()) > 0
+
+def test_site():
+	r = requests.get('http://172.18.0.1:5000/')
+	assert r.status_code == 200

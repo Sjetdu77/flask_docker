@@ -5,19 +5,21 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello_world():
-    return render_template("hello.html")
+	return render_template("hello.html")
 
 @app.route("/crow")
 def crow():
-    mydb = connector.connect(
-        host="db",
-        user="root",
-        password="daswid",
-        database="crowbase"
-    )
+	mydb = connector.connect(
+		host="db",
+		user="root",
+		password="daswid",
+		database="crowbase"
+	)
 
-    mycursor = mydb.cursor()
-    mycursor.execute("SELECT * FROM crow")
+	mycursor = mydb.cursor()
+	mycursor.execute("SELECT * FROM crow")
 
-    res = mycursor.fetchall()
-    return render_template("crow.html", crow=res)
+	return render_template("crow.html", crow=mycursor.fetchall())
+
+if __name__ == '__main__':
+	app.run(host="0.0.0.0", debug=True)
